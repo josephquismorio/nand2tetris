@@ -1,0 +1,35 @@
+// File: DMux8Way.hdl
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is the implementation of the Dmux 8 Way gate on the first 312 lab.
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    // Put your code here:
+	DMux (in=in, sel=sel[2], a=A1, b=B1); // extension of DMux 
+	DMux (in=A1, sel=sel[1], a=A2, b=B2);
+	DMux (in=B1, sel=sel[1], a=A3, b=B3);
+	DMux (in=A2, sel=sel[0], a=a, b=b);
+	DMux (in=B2, sel=sel[0], a=c, b=d);
+	DMux (in=A3, sel=sel[0], a=e, b=f);
+	DMux (in=B3, sel=sel[0], a=g, b=h);
+
+}
