@@ -1,0 +1,16 @@
+// File: Proposition3
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is Proposition 3 on the first 312 lab.
+
+// c and (a and b)
+CHIP Proposition3 {
+	IN a, b, c; //a represents the static IP status, b represents the DHCP server's status, c represents the server sending the email
+	OUT out; //output represents the statement
+	
+	PARTS:
+	And (a=a, b=b, out=AandB); // see if either IP or DHCP is down
+	And (a=AandB, b=c, out=out); //check if email sends
+}

@@ -1,0 +1,18 @@
+// File: Proposition4
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is Proposition 4 on the first 312 lab.
+
+// interpreting this as (a and b) and (c or !c) ???
+CHIP Proposition4 {
+	IN a, b, c; //a represents the server password correctness, b represents the OTP correctness, c represents the user login status
+	OUT out; //output represents the statement
+	
+	PARTS:
+	And (a=a, b=b, out=AandB); // see if both password and OTP are correct
+	Not (in=c, out=NotC); //account for if user can't log in
+	Or (a=c, b=NotC, out=C); //account for or statement
+	And (a=AandB, b=C, out=out); //check if user logs in
+}

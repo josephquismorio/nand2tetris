@@ -1,0 +1,17 @@
+// File: Proposition2
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is Proposition 2 on the first 312 lab.
+
+// (a and b) or (!a and !b)
+CHIP Proposition2 {
+	IN a, b; //a represents the application being under 10mb, b represents the successful download
+	OUT out; //output represents the statement
+	
+	PARTS:
+	//build xnor gate - truth tables for the boolean statement and xnor are the same
+	Xor (a=a, b=b, out=AandB);
+	Not (in=AandB, out=out);
+}

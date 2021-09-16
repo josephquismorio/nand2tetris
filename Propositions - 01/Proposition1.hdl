@@ -1,0 +1,16 @@
+// File: Proposition1
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is Proposition 1 on the first 312 lab.
+
+// !a and b
+CHIP Proposition1 {
+	IN a, b; //a represents the application being installed, b represents the running of the computer
+	OUT out; //output represents the statement
+	
+	PARTS:
+	Not (in=a, out=NotA); // invert a
+	And (a=NotA, b=b, out=out); //a and inverse of b, if both 1 then output is 1 otherwise 0
+}
