@@ -1,0 +1,28 @@
+// File: LeftLogicBitshift.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Shifts 16 bit number to the left
+
+/**
+ * Shift x left y bits, new bits are filled in with 0, you may not use any DFF or clocked chip in this implementation
+ * You may assume the maximum shift is 8-bit
+ */
+
+CHIP LeftLogicBitshift {
+    IN x[16], y[16];
+    OUT out[16];
+
+    PARTS:
+
+	Mux16 (a=x, b[15]=false, b[0..14]=x[1..15], sel=y[0], out[0..15] = c1, out[2..15] = c2); //set last bit to false and overwrite other bits if sel is 1 - going to assume these aren't signed?
+
+	Mux16 (a=c1, b[14..15]=false, b[0..13]=c2, sel=y[1], out[0..15] = d1, out[4..15] = d2); //set last 2 bits to false and overwrite other bits if sel is 1
+
+	Mux16 (a=d1, b[12..15]=false, b[0..11]=d2, sel=y[2], out[0..15] = e1, out[8..15] = e2); //set last 4 bits to false and overwrite other bits if sel is 1
+
+	Mux16 (a=e1, b[8..15]=false, b[0..7]=e2, sel=y[3], out = out); //set last 8 bits to false and overwrite other bits if sel is 1
+
+}
+

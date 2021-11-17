@@ -1,0 +1,27 @@
+// File: Add16.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: 16 bit adder
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/Adder16.hdl
+
+/**
+ * Adds two 16-bit values.
+ * The most significant carry bit is ignored.
+ */
+
+CHIP Add16 {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+   	Add10 (a=a[0..9], b=b[0..9], out=out[0..9], carry=c);
+	Add6 (a=a[10..15], b=b[10..15], carryIn=c, out=out[10..15]);
+	//use 10-bit adder and 6-bit adder to add 16-bit sequence
+
+}

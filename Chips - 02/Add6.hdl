@@ -1,0 +1,23 @@
+// File: Add6.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: 6 bit adder
+
+/**
+ * Adds two 6-bit values. 
+ * Think about how to pass the carry of the first 4-bit adder to the second one
+ */
+
+CHIP Add6 {
+    IN a[6], b[6], carryIn;
+    OUT out[6],carry;
+
+    PARTS:
+   // Put you code here:
+	Add4 (a=a[0..3], b=b[0..3], carryIn=carryIn, out=out[0..3], carry=c); //use 4 bit to add the first 4 bits of sequence
+	FullAdder (a=a[4], b=b[4], c=c, sum=out[4], carry=d); // sum the fifth bit of both values, account for carry
+	FullAdder (a=a[5], b=b[5], c=d, sum=out[5], carry=carry); // sum the sixth bit of both values, account for carry
+	
+}

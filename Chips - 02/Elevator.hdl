@@ -1,0 +1,30 @@
+// File: Elevator.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: An elevator controller such that the option to go up or down by only one floor is disabled
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/Elevator.hdl
+
+/**
+ * Design an elevator controller such that the option to go up or down by only one //floor is disabled. Assume that the building the elevator is in has 4 floors. //Your inputs are the current floor and the next requested floor. The output from //the controller should be the next floor to go to.
+*Hint: Since there are four floors, you will need 2 bits to represent a floor.
+*example: current floor: 01, requested floor: 11, next floor: 11 or
+*example: current floor: 00, requested floor: 01, next floor: 00 (disabled condition)
+ */
+
+CHIP Elevator {
+    IN c[2], r[2];
+    OUT next[2];
+
+    PARTS:
+   // Put you code here:
+	Xor (a=c[0], b=r[0], out=d);
+	Mux (a=false, b=true, sel=d, out=out);
+	HalfAdder (
+	
+}

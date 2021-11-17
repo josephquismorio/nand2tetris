@@ -1,0 +1,62 @@
+// File: ALU-nostat.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Arithmetic Logic Unit (without handling of status outputs)
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/ALU-nostat.hdl
+
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+
+CHIP ALU-nostat {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16]; // 16-bit output
+
+    PARTS:
+   // Put you code here:
+
+	Mux16 (a=x, b[0..15]=false, sel=zx, out=zeroedX); //if sel = 1 produce "zeroed out x"
+	Not16 (in=zeroedX, out=notZeroedX); // have to use zeroedX variable to carry into next parts of chip; this kind of trend will continue
+	Mux16 (a=zeroedX, b=notZeroedX, sel=nx, out=negX); //if sel = 1 produce negated x
+	
+	Mux16 (a=y, b[0..15]=false, sel=zy, out=zeroedY); //if sel = 1 produce "zeroed out y"
+	Not16 (in=zeroedY, out=notZeroedY); 
+	Mux16 (a=zeroedY, b=notZeroedY, sel=ny, out=negY); //if sel = 1 produce negated x
+
+	Add16 (a=negX, b=negY, out=XplusY); //add
+	And16 (a=negX, b=negY, out=XandY); //and
+   	Mux16(a=XandY, b=XplusY, sel=f, out=z); // if f = 1 produce X plus Y otherwise produce X and Y
+    	Not16(in=z, out=notZ);
+    	Mux16(a=z, b=notZ, sel=no, out=out); // if no = 1 produce negated version of whatever was got in the f part of the chip
+	
+	
+}
