@@ -1,0 +1,29 @@
+// File: Mux.hdl
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: The content of this file is the implementation of the Mux gate on the first 312 lab.
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+	Not (in = sel, out = notSel); // inverse of sel 
+	And (a=a, b=notSel, out=AandnotSel); // outputs whatever a is if notSel is 1, otherwise 0
+	And (a=sel, b=b, out=SelandB); //outputs whatever b is if sel is 1, otherwise 0
+	Or (a=AandnotSel, b=SelandB, out=out); //if either AandnotSel or SelandB happens to be 1, will output 1, otherwise 0
+}
