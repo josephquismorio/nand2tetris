@@ -1,0 +1,21 @@
+// File: OnesCounter.hdl
+// Author: Joseph Quismorio
+// Date: 09/20/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Counts how many ones are in the 3 bit number
+
+/**
+ * A number of 1s counter outputs in binary, on two outputs, the number of
+ * 1s on a three-bit input.
+ * Example: input: 010 > 01,  input: 101 >  10, input: 000 > 00 
+ */
+
+CHIP OnesCounter{
+    IN a[3];
+    OUT out[2];
+
+    PARTS:
+   // Put you code here:
+	FullAdder (a=a[0], b=a[1], c=a[2], sum=out[1], carry=out[0]); //just reverse the full adder output; full adder essentially counts the number of 0s 
+}
