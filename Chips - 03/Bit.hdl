@@ -1,0 +1,27 @@
+// File: Bit.hdl
+// Author: Joseph Quismorio
+// Date: 09/27/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: 1-bit register with DFF
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/Bit.hdl
+
+/**
+ * 1-bit register:
+ * If load[t] == 1 then out[t+1] = in[t]
+ *                 else out does not change (out[t+1] = out[t])
+ */
+
+CHIP Bit {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+	Mux (a=out1, b=in, sel=load, out=c); //if load is true out is out+1, otherwise doesn't change
+	DFF (in=c, out=out, out=out1); //clocks mux output and feeds back to next cycle
+}

@@ -1,0 +1,32 @@
+// File: Fibonacci.hdl
+// Author: Joseph Quismorio
+// Date: 09/27/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Fibonacci sequencer
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/RightArithmeticBitshift.hdl
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/Fibonacci.hdl
+//Fibonacci Number Generator
+//Given two initial numbers f0 and f1, the sequence will be generated
+//Further description of problem in project document.
+
+CHIP Fibonacci {
+	IN f0[16], enable1, msel, enable2, enable3, f1[16];
+	OUT out[16];
+
+	PARTS:
+	//Put your code here.
+	Mux16 (a=f0, b=sum, sel=msel, out=o1); //based on circuit, takes in msel (determines f0 and f1 if 0 and continues running if 1) for select bit, takes f0 as condition a and takes clocked input from register 3 after the circuit has added the outputs of register 2 and register 1 and processed the sum through register 3 for b
+	Mux16 (a=f1, b=reg1, sel=msel, out=o2); //takes in msel as select, f1 for condition a and the output of register 1 as b condition
+	Register (in=o1, load=enable1, out=reg1); //registers output of first mux, load fixes registers corresponding to whether or not circuit is running
+	Register (in=o2, load=enable2, out=reg2); //registers output of second mux
+	Register (in=o3, load=enable3, out=sum, out=out); //registers sum of first two registers and nearly functions in the same way as other registers but offers final sum at the end
+	Add16 (a=reg1, b=reg2, out=o3); //continually add r1 and r2
+}

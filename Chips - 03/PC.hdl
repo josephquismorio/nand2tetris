@@ -1,0 +1,33 @@
+// File: PC.hdl
+// Author: Joseph Quismorio
+// Date: 09/27/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: 16-bit program counter
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+	Inc16 (in=register, out=incr); //increment register output
+	Mux16 (a=register, b=incr, sel=inc, out=c); //if inc = 1 output incremented register, otherwise return normal register
+	Mux16 (a=c, b=in, sel=load, out=d); //if load = 1 output register, otherwise return whatever was determined by previous mux
+	Mux16 (a=d, b=false, sel=reset, out=e); //if reset = 1 reset register to 0, otherwise return whatever was determined by previous mux
+	Register (in=e, load=true, out=out, out=register); //feedback to next clocking cycle
+	
+}

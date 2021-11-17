@@ -1,0 +1,34 @@
+// File: RightArithmeticBitshift.hdl
+// Author: Joseph Quismorio
+// Date: 09/27/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Bit shifter using D flip flop
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/RightArithmeticBitshift.hdl
+
+/**
+ * Please read instruction in project document
+ * 
+ */
+
+CHIP RightArithmeticBitshift {
+    IN in, load, reset;
+    OUT out[4];
+
+    PARTS:
+   // Put you code here:
+	Xor (a=reset, b=load, out=a); // compare load value with reset signal value; if they are both the same bit does not change
+	Mux (a=in, b=false, sel=reset, out=b); //start with least significant bit and go to most significant - check if reset is 0 or 1; if 1, all bits are filled with zero
+	Bit (in=b, load=a, out=o1, out=out[3]); //register holding data for first output bit, depending on load value (created by xor gate) the input either becomes "in" or does not change. output goes to both next bit and output bit
+	Mux (a=o1, b=false, sel=reset, out=c); //continue process
+	Bit (in=c, load=true, out=o2, out=out[2]);
+	Mux (a=o2, b=false, sel=reset, out=d);
+	Bit (in=d, load=true, out=o3, out=out[1]);
+	Mux (a=o3, b=false, sel=reset, out=e);
+	Bit (in=e, load=true, out=o4, out=out[0]);
+   
+}

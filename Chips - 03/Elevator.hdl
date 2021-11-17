@@ -1,0 +1,35 @@
+// File: Elevator.hdl
+// Author: Joseph Quismorio
+// Date: 09/27/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Elevator controller
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/Elevator.hdl
+/**
+ *Design an elevator controller with the following specs:
+//Assume that the building the elevator is in has 2 floors: F0 and F1. The //elevator has UP and DOWN buttons. When UP is pressed, the elevator goes one //floor up. If the elevator is on F1 and UP is pressed, it stays on F1 and sounds //a BEEP. When DOWN is pressed, the elevator goes one floor down. If the elevator //is on F0 and DOWN is pressed, it stays on F0 and sounds a
+//BEEP.If neither UP nor DOWN are pressed, or both UP and DOWN are pressed, the //elevator stays on the current floor.
+
+// p: present state, u: up, d: down, n: next state, b: beep 
+//Hint : Use DFF  to map the present and next state.
+// Read description given in Lab 3 document carefully.
+ */
+
+CHIP Elevator {
+    IN p, u, d;
+    OUT n, b;
+    
+	PARTS:
+    // Put your code here:
+	Xor(a=u, b=d, out=checkBoth); //check if both buttons are pressed
+	Mux(a=p, b=next, sel=checkBoth, out=levelcheck); //if both buttons are pressed, stay on same floor, otherwise go to next floor
+
+	DFF(in=levelcheck, out=next, out=n);
+	
+	
+
+}
