@@ -1,0 +1,45 @@
+// File: Memory.hdl
+// Author: Joseph Quismorio
+// Date: 09/13/2021
+// Section: 504
+// E-mail: jfquismorio@tamu.edu 
+// Description: Hack Computer Memory
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+ */
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+
+    DMux4Way(in=load, sel=address[13..14], a=ram1, b=ram2, c=screen, d=kbd); //address is last two bits of 15 bit address; outputs two ram values for ram16k load value that will change as the time continues to step, or screen enable bit if address is 10, or keyboard enable bit for input for 11 
+    Or(a=ram1, b=ram2, out=ram3); //whichever one is 1 will effectively serve as load value for ram16k
+    RAM16K(in=in, load=ram3, address=address[0..13], out=ramOut); //if load is 1, map in value to bits specified by the address
+    Mux4Way16(a=ramOut, b=ramOut, c=screenOut, d=kbdOut, sel=address[13..14], out=out); //determines what the ultimate output is following screen output and keyboard output
+    Screen(in=in, load=screen, address=address[0..12], out=screenOut); //address slot takes in 13 bit address
+    Keyboard(out=kbdOut); //outputs the ascii of whatever button is pressed on the keyboard 
+}
